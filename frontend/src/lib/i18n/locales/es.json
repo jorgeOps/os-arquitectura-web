@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "projects": "Proyectos",
+    "blog": "Blog",
+    "about": "Sobre Nosotros",
+    "contact": "Contacto"
+  },
+  "projects": {
+    "title": "Proyectos",
+    "all": "Todos los proyectos",
+    "category": "Categoría",
+    "year": "Año",
+    "location": "Ubicación",
+    "area": "Área",
+    "client": "Cliente"
+  },
+  "blog": {
+    "title": "Blog",
+    "latest": "Últimas noticias",
+    "readMore": "Leer más"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error al cargar el contenido",
+    "notFound": "No encontrado"
+  }
+}

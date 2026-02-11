@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "blog": "Blog",
+    "about": "About Us",
+    "contact": "Contact"
+  },
+  "projects": {
+    "title": "Projects",
+    "all": "All projects",
+    "category": "Category",
+    "year": "Year",
+    "location": "Location",
+    "area": "Area",
+    "client": "Client"
+  },
+  "blog": {
+    "title": "Blog",
+    "latest": "Latest news",
+    "readMore": "Read more"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error loading content",
+    "notFound": "Not found"
+  }
+}
