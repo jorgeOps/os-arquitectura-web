@@ -4,26 +4,29 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { FilterProvider, useFilters } from "@/contexts/FilterContext";
 import { FilterMatrix } from "./FilterMatrix";
 import { ProjectCard, Project } from "./ProjectCard";
-import { MOCK_PROJECTS } from "@/lib/mockData";
-import { motion, LayoutGroup } from "framer-motion";
+import { ProjectDetail } from "./ProjectDetail";
+import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
 import { Locale } from "@/lib/i18n/config";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PortfolioClientProps {
   lang: Locale;
+  initialProjects: Project[];
 }
 
-function PortfolioContent() {
+function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
   const { activeFilters } = useFilters();
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
+  // ... (keep existing sortedProjects logic)
   // Reordenar proyectos: coincidentes primero, luego no coincidentes
   const sortedProjects = useMemo(() => {
     if (activeFilters.size === 0) {
       // Sin filtros, mostrar todos con marca de coincidencia
-      return MOCK_PROJECTS.map((project) => ({
+      return initialProjects.map((project) => ({
         ...project,
         isMatched: true,
       }));
@@ -32,7 +35,7 @@ function PortfolioContent() {
     const matched: (Project & { isMatched: boolean })[] = [];
     const notMatched: (Project & { isMatched: boolean })[] = [];
 
-    MOCK_PROJECTS.forEach((project) => {
+    initialProjects.forEach((project) => {
       const hasAllFilters = Array.from(activeFilters).every((filterId) =>
         project.tags.includes(filterId)
       );
@@ -45,7 +48,7 @@ function PortfolioContent() {
     });
 
     return [...matched, ...notMatched];
-  }, [activeFilters]);
+  }, [activeFilters, initialProjects]);
 
   const matchedCount = sortedProjects.filter((p) => p.isMatched).length;
 
@@ -94,6 +97,16 @@ function PortfolioContent() {
 
   return (
     <div className="space-y-6">
+      {/* Detalle del Proyecto (Overlay) */}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectDetail
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Matriz de filtros - más compacta */}
       <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
         <FilterMatrix />
@@ -104,7 +117,7 @@ function PortfolioContent() {
         <p className="text-xs text-gray-600">
           {activeFilters.size === 0 ? (
             <>
-              Mostrando <strong>todos los proyectos</strong> ({MOCK_PROJECTS.length})
+              Mostrando <strong>todos los proyectos</strong> ({initialProjects.length})
             </>
           ) : (
             <>
@@ -168,6 +181,7 @@ function PortfolioContent() {
                   key={project.id}
                   project={project}
                   isMatched={project.isMatched}
+                  onClick={() => setSelectedProject(project)}
                 />
               ))}
             </motion.div>
@@ -178,10 +192,10 @@ function PortfolioContent() {
   );
 }
 
-export function PortfolioClient({ lang }: PortfolioClientProps) {
+export function PortfolioClient({ lang, initialProjects }: PortfolioClientProps) {
   return (
     <FilterProvider>
-      <PortfolioContent />
+      <PortfolioContent initialProjects={initialProjects} />
     </FilterProvider>
   );
 }

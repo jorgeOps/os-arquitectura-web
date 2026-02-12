@@ -3,6 +3,7 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { Container } from "@/components/ui/Container";
 import Image from "next/image";
 
+
 export default async function AboutPage({
   params,
 }: {

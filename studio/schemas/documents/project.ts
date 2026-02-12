@@ -1,5 +1,5 @@
-import {defineType, defineField} from 'sanity'
-import {HomeIcon} from '@sanity/icons'
+import { defineType, defineField } from 'sanity'
+import { HomeIcon } from '@sanity/icons'
 
 export default defineType({
   name: 'project',
@@ -7,21 +7,21 @@ export default defineType({
   type: 'document',
   icon: HomeIcon,
   groups: [
-    {name: 'content', title: 'Contenido', default: true},
-    {name: 'details', title: 'Detalles'},
-    {name: 'seo', title: 'SEO'},
+    { name: 'content', title: 'Contenido', default: true },
+    { name: 'details', title: 'Detalles' },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Título *',
       type: 'localizedString',
       group: 'content',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
+      title: 'Slug *',
       type: 'slug',
       group: 'content',
       options: {
@@ -32,7 +32,7 @@ export default defineType({
     }),
     defineField({
       name: 'mainImage',
-      title: 'Imagen Principal',
+      title: 'Imagen Principal *',
       type: 'image',
       group: 'content',
       options: {
@@ -42,7 +42,7 @@ export default defineType({
         {
           name: 'alt',
           type: 'string',
-          title: 'Texto alternativo',
+          title: 'Texto alternativo *',
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -50,18 +50,18 @@ export default defineType({
     }),
     defineField({
       name: 'gallery',
-      title: 'Galería de Imágenes',
+      title: 'Galería de Imágenes *',
       type: 'array',
       group: 'content',
       of: [
         {
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
           fields: [
             {
               name: 'alt',
               type: 'string',
-              title: 'Texto alternativo',
+              title: 'Texto alternativo *',
               validation: (Rule) => Rule.required(),
             },
             {
@@ -75,11 +75,11 @@ export default defineType({
     }),
     defineField({
       name: 'excerpt',
-      title: 'Descripción Corta',
+      title: 'Descripción Corta *',
       type: 'localizedText',
       group: 'content',
       description: 'Breve descripción que aparecerá en listados y previews',
-      validation: (Rule) => Rule.required().max(200),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
@@ -88,11 +88,22 @@ export default defineType({
       group: 'content',
     }),
     defineField({
-      name: 'category',
-      title: 'Categoría',
-      type: 'reference',
+      name: 'buildingType',
+      title: 'Tipo de Edificio *',
+      type: 'string',
       group: 'details',
-      to: [{type: 'category'}],
+      options: {
+        list: [
+          { title: 'Terciario oficinas', value: 'office' },
+          { title: 'Terciario comercial', value: 'commercial' },
+          { title: 'Terciario dotacional', value: 'institutional' },
+          { title: 'Residencial colectivo', value: 'residential_collective' },
+          { title: 'Residencial unifamiliar', value: 'residential_single' },
+          { title: 'Industrial', value: 'industrial' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -115,7 +126,7 @@ export default defineType({
     }),
     defineField({
       name: 'year',
-      title: 'Año de Finalización',
+      title: 'Año de Finalización *',
       type: 'number',
       group: 'details',
       validation: (Rule) =>
@@ -135,6 +146,68 @@ export default defineType({
       title: 'Cliente',
       type: 'string',
       group: 'details',
+    }),
+    defineField({
+      name: 'workType',
+      title: 'Tipo de Obra',
+      type: 'string',
+      group: 'details',
+      options: {
+        list: [
+          { title: 'Obra nueva', value: 'new' },
+          { title: 'Rehabilitación', value: 'renovation' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+    }),
+    defineField({
+      name: 'serviceScope',
+      title: 'Tipo de Trabajo',
+      type: 'string',
+      group: 'details',
+      options: {
+        list: [
+          { title: 'Misión completa', value: 'full' },
+          { title: 'Proyectos Previos', value: 'previous' },
+          { title: 'Project Management', value: 'pm' },
+          { title: 'Consultoría', value: 'consulting' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+    }),
+    defineField({
+      name: 'status',
+      title: 'Estado del Trabajo *',
+      type: 'string',
+      group: 'details',
+      options: {
+        list: [
+          { title: 'En estudio', value: 'study' },
+          { title: 'En curso', value: 'ongoing' },
+          { title: 'Finalizado', value: 'finished' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'locationFilter',
+      title: 'Filtro de Localización *',
+      type: 'string',
+      group: 'details',
+      description: 'Selecciona la agrupación para el filtro de localización',
+      options: {
+        list: [
+          { title: 'Madrid', value: 'madrid' },
+          { title: 'Barcelona', value: 'barcelona' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'collaborators',
@@ -212,7 +285,7 @@ export default defineType({
       title: 'Etiquetas',
       type: 'array',
       group: 'seo',
-      of: [{type: 'string'}],
+      of: [{ type: 'string' }],
       options: {
         layout: 'tags',
       },
@@ -240,7 +313,7 @@ export default defineType({
       media: 'mainImage',
       year: 'year',
     },
-    prepare({title, subtitle, media, year}) {
+    prepare({ title, subtitle, media, year }) {
       return {
         title: title || 'Sin título',
         subtitle: `${subtitle || 'Sin categoría'} - ${year || 'Sin año'}`,
@@ -252,12 +325,12 @@ export default defineType({
     {
       title: 'Fecha de publicación, más reciente',
       name: 'publishedAtDesc',
-      by: [{field: 'publishedAt', direction: 'desc'}],
+      by: [{ field: 'publishedAt', direction: 'desc' }],
     },
     {
       title: 'Año, más reciente',
       name: 'yearDesc',
-      by: [{field: 'year', direction: 'desc'}],
+      by: [{ field: 'year', direction: 'desc' }],
     },
   ],
 })

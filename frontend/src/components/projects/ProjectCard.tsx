@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { motion } from "framer-motion";
 import { useFilters } from "@/contexts/FilterContext";
 import Image from "next/image";
@@ -13,14 +15,21 @@ export interface Project {
   area: string;
   image: string;
   tags: string[]; // IDs de los filtros asociados
+  description?: any;
+  gallery?: string[];
+  client?: string;
+  collaborators?: { name: string; role: string }[];
+  awards?: { name: string; year: number; organization: string }[];
+  excerpt?: string;
 }
 
 interface ProjectCardProps {
   project: Project;
   isMatched?: boolean; // Si coincide con los filtros activos
+  onClick?: () => void;
 }
 
-export function ProjectCard({ project, isMatched = true }: ProjectCardProps) {
+export function ProjectCard({ project, isMatched = true, onClick }: ProjectCardProps) {
   const { setHighlightedFilters, clearHighlights } = useFilters();
 
   const handleMouseEnter = () => {
@@ -33,8 +42,9 @@ export function ProjectCard({ project, isMatched = true }: ProjectCardProps) {
 
   return (
     <motion.div
-      layout
+      layoutId={`project-card-${project.id}`}
       className="group relative cursor-pointer w-full h-full"
+      onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0 }}

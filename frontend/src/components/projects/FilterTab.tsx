@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { motion } from "framer-motion";
 import { useFilters } from "@/contexts/FilterContext";
 
@@ -17,21 +19,21 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
   // Definición de estilos por estado
   const stateStyles = isActive
     ? {
-        bg: "bg-lime-300",
-        border: "border-gray-900",
-        text: "text-gray-900 font-bold",
-        zIndex: "z-30",
-        shadowColor: "bg-gray-800",
-      }
+      bg: "bg-lime-300",
+      border: "border-gray-900",
+      text: "text-gray-900 font-bold",
+      zIndex: "z-30",
+      shadowColor: "bg-gray-800",
+    }
     : isHighlighted
-    ? {
+      ? {
         bg: "bg-yellow-200",
         border: "border-gray-900",
         text: "text-gray-900 font-medium",
         zIndex: "z-20",
         shadowColor: "bg-gray-400",
       }
-    : {
+      : {
         bg: "bg-white",
         border: "border-gray-400",
         text: "text-gray-500 hover:text-gray-800",
@@ -43,7 +45,7 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
     <motion.button
       onClick={onClick}
       // ML-8: AÑADIDO MARGEN IZQUIERDO para que la "pata" inclinada no choque con el vecino
-      className={`relative group h-9 ml-8 first:ml-0 ${stateStyles.zIndex} ${isActive ? "mb-px hover:drop-shadow-[0_1px_0_rgba(156,163,175,0.6)]" : "mb-0"}`}
+      className={`relative group h-9 ml-8 shrink-0 ${stateStyles.zIndex} ${isActive ? "mb-px hover:drop-shadow-[0_1px_0_rgba(156,163,175,0.6)]" : "mb-0"}`}
       whileHover={{ y: -1 }}
       transition={{ duration: 0.1 }}
     >
@@ -73,9 +75,9 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
            - origin-bottom-right: La transformación nace de la esquina inferior derecha,
              asegurando que conecte perfectamente abajo.
         */}
-      {/* OÍDO IZQUIERDO */}
-      <div
-        className={`
+        {/* OÍDO IZQUIERDO */}
+        <div
+          className={`
           absolute right-[100%] top-[-1px] bottom-[-1px] w-8
           origin-bottom-right -skew-x-[40deg]
           border-l border-t border-b border-b-gray-400
@@ -83,20 +85,20 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
           transition-colors duration-200
           z-0 pointer-events-none
         `}
-      />
+        />
 
-      {/* TEXTO */}
-      <span
-        className={`
+        {/* TEXTO */}
+        <span
+          className={`
           relative z-10
           block text-xs capitalize tracking-wide
           pt-4 pb-1 whitespace-nowrap
           ${stateStyles.text}
           transform origin-bottom scale-y-110
         `}
-      >
-        {label}
-      </span>
+        >
+          {label}
+        </span>
 
       </div>
     </motion.button>

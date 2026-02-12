@@ -14,7 +14,7 @@ export function Header({ lang }: HeaderProps) {
       <Container>
         <div className="flex h-16 items-center justify-between">
           <Link href={`/${lang}`} className="text-xl font-bold">
-            Portfolio
+            O.S. Arquitectura
           </Link>
 
           <div className="flex items-center gap-6">

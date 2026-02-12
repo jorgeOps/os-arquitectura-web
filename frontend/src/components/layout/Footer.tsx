@@ -6,7 +6,7 @@ export function Footer() {
       <Container>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Portfolio Arquitectura. Todos los derechos reservados.
+            © {new Date().getFullYear()} O.S. Arquitectura. Todos los derechos reservados.
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="hover:underline">
