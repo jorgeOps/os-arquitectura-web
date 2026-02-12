@@ -19,3 +19,18 @@ export interface SanityProject {
     collaborators?: { name: string; role: string }[];
     awards?: { name: string; year: number; organization: string }[];
 }
+
+export interface SanityPublication {
+    _id: string;
+    title: any; // LocalizedString
+    slug: { current: string } | null;
+    coverImage?: any;
+    content: any; // LocalizedBlockContent
+    publishDate?: string;
+    publisher?: string;
+    authors?: string[];
+    pdfFile?: any;
+    externalLink?: string;
+    tags?: string[];
+    featured?: boolean;
+}

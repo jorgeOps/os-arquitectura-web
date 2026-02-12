@@ -19,5 +19,36 @@ export const PROJECTS_QUERY = defineQuery(`*[_type == "project"] | order(year de
   client,
   collaborators,
   awards,
-  "tags": [] 
+  "tags": []
+}`);
+
+// Publications queries
+export const PUBLICATIONS_QUERY = defineQuery(`*[_type == "publication"] | order(publishDate desc) {
+  _id,
+  title,
+  slug,
+  coverImage,
+  content,
+  publishDate,
+  publisher,
+  authors,
+  pdfFile,
+  externalLink,
+  tags,
+  featured
+}`);
+
+export const PUBLICATION_BY_SLUG_QUERY = defineQuery(`*[_type == "publication" && slug.current == $slug][0] {
+  _id,
+  title,
+  slug,
+  coverImage,
+  content,
+  publishDate,
+  publisher,
+  authors,
+  pdfFile,
+  externalLink,
+  tags,
+  featured
 }`);

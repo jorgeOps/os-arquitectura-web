@@ -27,6 +27,19 @@ export default defineConfig({
               .child(S.documentTypeList('post').title('Posts')),
             S.divider(),
             S.listItem()
+              .title('Publicaciones')
+              .icon(() => '📄')
+              .child(S.documentTypeList('publication').title('Publicaciones')),
+            S.listItem()
+              .title('Cobertura Mediática')
+              .icon(() => '📷')
+              .child(S.documentTypeList('mediaCoverage').title('Medios')),
+            S.listItem()
+              .title('Premios')
+              .icon(() => '🏆')
+              .child(S.documentTypeList('award').title('Premios')),
+            S.divider(),
+            S.listItem()
               .title('Autores')
               .icon(() => '👤')
               .child(S.documentTypeList('author').title('Autores')),

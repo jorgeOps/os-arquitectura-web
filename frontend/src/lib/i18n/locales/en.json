@@ -4,7 +4,11 @@
     "projects": "Projects",
     "blog": "Blog",
     "about": "Who we are",
-    "contact": "Contact"
+    "contact": "Contact",
+    "newsAndAwards": "News & Recognition",
+    "publications": "Publications",
+    "media": "Media",
+    "awards": "Awards"
   },
   "projects": {
     "title": "Projects",
@@ -19,6 +23,31 @@
     "title": "Blog",
     "latest": "Latest news",
     "readMore": "Read more"
+  },
+  "publications": {
+    "title": "Publications",
+    "all": "All publications",
+    "type": "Type",
+    "publisher": "Publisher",
+    "publishDate": "Publication date",
+    "downloadPDF": "Download PDF",
+    "viewMore": "View more"
+  },
+  "media": {
+    "title": "Media",
+    "all": "All coverage",
+    "event": "Event",
+    "eventDate": "Event date",
+    "coverage": "Coverage",
+    "outlets": "Media outlets"
+  },
+  "awards": {
+    "title": "Awards",
+    "all": "All awards",
+    "organization": "Organization",
+    "year": "Year",
+    "category": "Category",
+    "relatedProject": "Winning project"
   },
   "common": {
     "loading": "Loading...",

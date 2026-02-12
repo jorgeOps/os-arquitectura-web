@@ -4,7 +4,11 @@
     "projects": "Proyectos",
     "blog": "Blog",
     "about": "Quiénes somos",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "newsAndAwards": "Noticias y Reconocimientos",
+    "publications": "Publicaciones",
+    "media": "Medios",
+    "awards": "Premios"
   },
   "projects": {
     "title": "Proyectos",
@@ -19,6 +23,31 @@
     "title": "Blog",
     "latest": "Últimas noticias",
     "readMore": "Leer más"
+  },
+  "publications": {
+    "title": "Publicaciones",
+    "all": "Todas las publicaciones",
+    "type": "Tipo",
+    "publisher": "Editorial",
+    "publishDate": "Fecha de publicación",
+    "downloadPDF": "Descargar PDF",
+    "viewMore": "Ver más"
+  },
+  "media": {
+    "title": "Medios",
+    "all": "Todas las coberturas",
+    "event": "Evento",
+    "eventDate": "Fecha del evento",
+    "coverage": "Cobertura",
+    "outlets": "Medios de comunicación"
+  },
+  "awards": {
+    "title": "Premios",
+    "all": "Todos los premios",
+    "organization": "Organización",
+    "year": "Año",
+    "category": "Categoría",
+    "relatedProject": "Proyecto ganador"
   },
   "common": {
     "loading": "Cargando...",

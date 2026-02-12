@@ -8,6 +8,9 @@ import localizedBlockContent from './objects/localizedBlockContent'
 import author from './documents/author'
 import project from './documents/project'
 import post from './documents/post'
+import publication from './documents/publication'
+import mediaCoverage from './documents/mediaCoverage'
+import award from './documents/award'
 
 // Taxonomy
 import category from './taxonomy/category'
@@ -23,6 +26,9 @@ export const schemaTypes = [
   author,
   project,
   post,
+  publication,
+  mediaCoverage,
+  award,
   // Taxonomy
   category,
   postCategory,
