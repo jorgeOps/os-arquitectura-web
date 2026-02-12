@@ -14,16 +14,16 @@ const containerVariants = {
             delayChildren: 0.2,
         },
     },
-};
+} as const;
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
         y: 0,
         opacity: 1,
-        transition: { type: "spring", stiffness: 100 },
+        transition: { type: "spring" as const, stiffness: 100 },
     },
-};
+} as const;
 
 type SubmitStatus = "idle" | "loading" | "success" | "error";
 
