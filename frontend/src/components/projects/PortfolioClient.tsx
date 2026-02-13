@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { FilterProvider, useFilters } from "@/contexts/FilterContext";
 import { FilterMatrix } from "./FilterMatrix";
 import { ProjectCard, Project } from "./ProjectCard";
 import { ProjectDetail } from "./ProjectDetail";
-import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Locale } from "@/lib/i18n/config";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PortfolioClientProps {
   lang: Locale;
@@ -17,11 +16,7 @@ interface PortfolioClientProps {
 function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
   const { activeFilters } = useFilters();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  // ... (keep existing sortedProjects logic)
   // Reordenar proyectos: coincidentes primero, luego no coincidentes
   const sortedProjects = useMemo(() => {
     if (activeFilters.size === 0) {
@@ -36,11 +31,13 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
     const notMatched: (Project & { isMatched: boolean })[] = [];
 
     initialProjects.forEach((project) => {
-      const hasAllFilters = Array.from(activeFilters).every((filterId) =>
+      // Changed from .every() (AND) to .some() (OR) to allow inclusive filtering 
+      // (e.g. "Madrid" OR "Barcelona")
+      const matchesFilter = Array.from(activeFilters).some((filterId) =>
         project.tags.includes(filterId)
       );
 
-      if (hasAllFilters) {
+      if (matchesFilter) {
         matched.push({ ...project, isMatched: true });
       } else {
         notMatched.push({ ...project, isMatched: false });
@@ -52,51 +49,8 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
 
   const matchedCount = sortedProjects.filter((p) => p.isMatched).length;
 
-  // Detectar posición del scroll
-  const updateScrollButtons = () => {
-    if (!scrollContainerRef.current) return;
-
-    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
-  };
-
-  // Listener de scroll
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    updateScrollButtons();
-    container.addEventListener("scroll", updateScrollButtons);
-
-    // Observer para detectar cambios en el tamaño del contenedor
-    const resizeObserver = new ResizeObserver(updateScrollButtons);
-    resizeObserver.observe(container);
-
-    return () => {
-      container.removeEventListener("scroll", updateScrollButtons);
-      resizeObserver.disconnect();
-    };
-  }, [sortedProjects]);
-
-  // Navegación horizontal
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollContainerRef.current) return;
-    const scrollAmount = 400;
-    const newPosition =
-      direction === "left"
-        ? scrollContainerRef.current.scrollLeft - scrollAmount
-        : scrollContainerRef.current.scrollLeft + scrollAmount;
-
-    scrollContainerRef.current.scrollTo({
-      left: newPosition,
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Detalle del Proyecto (Overlay) */}
       <AnimatePresence>
         {selectedProject && (
@@ -127,66 +81,32 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
         </p>
       </div>
 
-      {/* Galería de proyectos - Mosaico único de 2 filas */}
-      <div className="relative -mx-4 px-4">
-        {/* Botón izquierdo - solo visible si se puede hacer scroll a la izquierda */}
-        {canScrollLeft && (
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 transition-all hover:scale-110"
-            aria-label="Scroll izquierda"
-          >
-            <ChevronLeft size={16} className="text-gray-700" />
-          </button>
-        )}
-
-        {/* Botón derecho - solo visible si se puede hacer scroll a la derecha */}
-        {canScrollRight && (
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white shadow-lg rounded-full p-2 transition-all hover:scale-110"
-            aria-label="Scroll derecha"
-          >
-            <ChevronRight size={16} className="text-gray-700" />
-          </button>
-        )}
-
-        {/* Gradientes laterales (efecto vignette) - solo visibles si hay scroll disponible */}
-        {canScrollLeft && (
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-gray-50 via-gray-50/50 to-transparent z-10 pointer-events-none" />
-        )}
-        {canScrollRight && (
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-gray-50 via-gray-50/50 to-transparent z-10 pointer-events-none" />
-        )}
-
-        {/* Contenedor con scroll horizontal */}
-        <div
-          ref={scrollContainerRef}
-          className="overflow-x-auto scrollbar-hide py-2"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
+      {/* Galería de proyectos - Vertical Layout with Centered Items */}
+      <div className="w-full">
+        <motion.div
+          layout
+          className="flex flex-wrap justify-center gap-3 lg:gap-4"
         >
-          {/* Grid de 2 filas con layout horizontal */}
-          <LayoutGroup>
-            <motion.div
-              className="grid grid-flow-col auto-cols-[160px] gap-3"
-              style={{
-                gridTemplateRows: "repeat(2, 160px)",
-              }}
-            >
-              {sortedProjects.map((project) => (
+          <AnimatePresence>
+            {sortedProjects.map((project) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="w-[160px] h-[160px]" // Fixed size as requested to match previous look
+              >
                 <ProjectCard
-                  key={project.id}
                   project={project}
                   isMatched={project.isMatched}
                   onClick={() => setSelectedProject(project)}
                 />
-              ))}
-            </motion.div>
-          </LayoutGroup>
-        </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   );

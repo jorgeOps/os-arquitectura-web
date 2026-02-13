@@ -69,7 +69,7 @@ function ImageLightbox({ images, initialIndex, onClose }: ImageLightboxProps) {
         >
             <button
                 onClick={onClose}
-                className="absolute top-6 right-6 z-20 bg-white/10 hover:bg-white/20 p-3 rounded-full transition-colors text-white"
+                className="absolute top-6 right-6 z-20 bg-black/50 hover:bg-black/70 p-3 rounded-full transition-colors text-white backdrop-blur-sm"
             >
                 <X size={24} />
             </button>

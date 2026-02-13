@@ -94,37 +94,40 @@ export function FilterMatrix() {
         </AnimatePresence>
       </div>
 
-      {/* Filas de filtros */}
-      <div className="space-y-0">
-        {FILTER_ROWS.map((row, index) => (
-          <div
-            key={row.category}
-            className="relative pt-6"
-          >
-            {/* Grid de 2 columnas: título | opciones - Adaptable */}
-            <div className="grid grid-cols-1 lg:grid-cols-[160px_1fr] gap-2 lg:gap-8 items-end">
-              {/* Título de la categoría - pegado a línea base */}
-              <div className="text-sm font-medium text-gray-500 pb-[2px]">
-                {row.title}
+      {/* Contenedor con scroll horizontal global */}
+      <div className="overflow-x-auto pb-2 custom-scrollbar">
+        {/* Filas de filtros con ancho mínimo */}
+        <div className="space-y-0 min-w-[1000px]">
+          {FILTER_ROWS.map((row) => (
+            <div
+              key={row.category}
+              className="relative pt-6"
+            >
+              {/* Grid de 2 columnas: título | opciones - Adaptable */}
+              <div className="grid grid-cols-[160px_1fr] gap-8 items-end">
+                {/* Título de la categoría - pegado a línea base */}
+                <div className="text-sm font-medium text-gray-500 pb-[2px]">
+                  {row.title}
+                </div>
+
+                {/* Solapas asentadas en la línea base - sin gap entre ellas */}
+                <div className="flex flex-nowrap gap-[4px] items-end relative z-10 pb-[1px]">
+                  {row.options.map((option) => (
+                    <FilterTab
+                      key={option.id}
+                      id={option.id}
+                      label={option.label}
+                      onClick={() => toggleFilter(option.id)}
+                    />
+                  ))}
+                </div>
               </div>
 
-              {/* Solapas asentadas en la línea base - sin gap entre ellas */}
-              <div className="flex flex-nowrap overflow-x-auto scrollbar-hide gap-[4px] items-end relative z-10 pb-[1px]">
-                {row.options.map((option) => (
-                  <FilterTab
-                    key={option.id}
-                    id={option.id}
-                    label={option.label}
-                    onClick={() => toggleFilter(option.id)}
-                  />
-                ))}
-              </div>
+              {/* Línea base continua (suelo del archivador) */}
+              <div className="absolute left-0 right-0 bottom-0 border-b border-gray-400 z-0" />
             </div>
-
-            {/* Línea base continua (suelo del archivador) */}
-            <div className="absolute left-0 right-0 bottom-0 border-b border-gray-400 z-0" />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
