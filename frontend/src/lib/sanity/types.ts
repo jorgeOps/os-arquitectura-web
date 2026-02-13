@@ -34,3 +34,27 @@ export interface SanityPublication {
     tags?: string[];
     featured?: boolean;
 }
+
+export interface SanityAward {
+    _id: string;
+    name: any; // LocalizedString
+    slug: { current: string } | null;
+    year: number;
+    organization: string;
+    category?: string;
+    coverImage: any;
+    description: any; // LocalizedBlockContent
+    relatedProject?: {
+        _id: string;
+        title: any; // LocalizedString
+        slug: { current: string };
+        mainImage?: any;
+    };
+    ceremonyGallery?: any[];
+    certificate?: any;
+    video?: any;
+    externalLink?: string;
+    tags?: string[];
+    featured?: boolean;
+    publishedAt?: string;
+}

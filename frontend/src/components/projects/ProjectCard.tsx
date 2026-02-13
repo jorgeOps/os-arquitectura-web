@@ -21,6 +21,7 @@ export interface Project {
   collaborators?: { name: string; role: string }[];
   awards?: { name: string; year: number; organization: string }[];
   excerpt?: string;
+  buildingType?: string;
 }
 
 interface ProjectCardProps {

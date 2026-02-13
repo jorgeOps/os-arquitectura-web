@@ -70,8 +70,7 @@ export default async function AboutPage({
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Administración */}
             <div>
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-gray-900">
-                <div className="w-1.5 h-1.5 bg-gray-900 rounded-full"></div>
+              <div className="mb-4 pb-3 border-b-2 border-gray-900">
                 <h3 className="text-lg font-semibold text-gray-900 uppercase tracking-wide">
                   Administración
                 </h3>
@@ -96,8 +95,7 @@ export default async function AboutPage({
 
             {/* Consultoras */}
             <div>
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-gray-900">
-                <div className="w-1.5 h-1.5 bg-gray-900 rounded-full"></div>
+              <div className="mb-4 pb-3 border-b-2 border-gray-900">
                 <h3 className="text-lg font-semibold text-gray-900 uppercase tracking-wide">
                   Consultoras
                 </h3>
@@ -121,8 +119,7 @@ export default async function AboutPage({
 
             {/* Fondos de Inversión */}
             <div>
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-gray-900">
-                <div className="w-1.5 h-1.5 bg-gray-900 rounded-full"></div>
+              <div className="mb-4 pb-3 border-b-2 border-gray-900">
                 <h3 className="text-lg font-semibold text-gray-900 uppercase tracking-wide">
                   Fondos de Inversión
                 </h3>
@@ -154,8 +151,7 @@ export default async function AboutPage({
 
             {/* Empresas privadas */}
             <div>
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-gray-900">
-                <div className="w-1.5 h-1.5 bg-gray-900 rounded-full"></div>
+              <div className="mb-4 pb-3 border-b-2 border-gray-900">
                 <h3 className="text-lg font-semibold text-gray-900 uppercase tracking-wide">
                   Empresas privadas
                 </h3>

@@ -91,6 +91,7 @@ export function mapSanityProjectToProject(sanityProject: SanityProject): Project
         client: sanityProject.client,
         collaborators: sanityProject.collaborators,
         awards: sanityProject.awards,
-        excerpt: typeof sanityProject.excerpt === 'object' ? (sanityProject.excerpt as any).es : sanityProject.excerpt
+        excerpt: typeof sanityProject.excerpt === 'object' ? (sanityProject.excerpt as any).es : sanityProject.excerpt,
+        buildingType: sanityProject.buildingType
     };
 }
