@@ -157,7 +157,7 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                 <div className="flex-1 overflow-y-auto min-h-0 bg-white">
                     {/* Header with Back Button */}
                     {onClose && (
-                        <div className="flex justify-end px-6 py-4 bg-white sticky top-0 z-20 border-b border-gray-100/50 backdrop-blur-sm bg-white/90">
+                        <div className="flex justify-end px-4 sm:px-6 py-4 bg-white sticky top-0 z-20 border-b border-gray-100/50 backdrop-blur-sm bg-white/90">
                             <button
                                 onClick={onClose}
                                 className="text-sm font-medium text-gray-500 hover:text-black transition-colors flex items-center gap-2 group"
@@ -187,23 +187,23 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                         </div>
                     </div>
 
-                    <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20">
                         {/* Title & Metadata Header */}
-                        <div className={`${hasMetadata ? 'border-b border-gray-100 pb-12 mb-12 md:mb-20' : 'mb-8'}`}>
+                        <div className={`${hasMetadata ? 'border-b border-gray-100 pb-8 sm:pb-12 mb-8 sm:mb-12 md:mb-20' : 'mb-8'}`}>
                             <motion.h1
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-4xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-8 tracking-tight leading-tight"
+                                className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-6 sm:mb-8 tracking-tight leading-tight break-words"
                             >
                                 {project.title}
                             </motion.h1>
 
                             {hasMetadata && (
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
                                     {project.location && (
                                         <div className="space-y-1">
                                             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Ubicación</span>
-                                            <div className="flex items-center gap-2 text-lg text-gray-900">
+                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900 break-words">
                                                 {project.location}
                                             </div>
                                         </div>
@@ -211,7 +211,7 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                                     {project.year && (
                                         <div className="space-y-1">
                                             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Año</span>
-                                            <div className="flex items-center gap-2 text-lg text-gray-900">
+                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900">
                                                 {project.year}
                                             </div>
                                         </div>
@@ -219,7 +219,7 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                                     {project.area && (
                                         <div className="space-y-1">
                                             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Área</span>
-                                            <div className="flex items-center gap-2 text-lg text-gray-900">
+                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900">
                                                 {project.area}
                                             </div>
                                         </div>
@@ -227,7 +227,7 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                                     {project.buildingType && (
                                         <div className="space-y-1">
                                             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Tipología</span>
-                                            <div className="flex items-center gap-2 text-lg text-gray-900 capitalize">
+                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900 capitalize break-words">
                                                 {project.buildingType.replace(/_/g, ' ')}
                                             </div>
                                         </div>

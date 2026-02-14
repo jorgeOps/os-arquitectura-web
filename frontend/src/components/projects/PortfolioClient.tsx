@@ -81,11 +81,11 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
         </p>
       </div>
 
-      {/* Galería de proyectos - Vertical Layout with Centered Items */}
+      {/* Galería de proyectos - Responsive Grid */}
       <div className="w-full">
         <motion.div
           layout
-          className="flex flex-wrap justify-center gap-3 lg:gap-4"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 lg:gap-4"
         >
           <AnimatePresence>
             {sortedProjects.map((project) => (
@@ -96,7 +96,7 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="w-[160px] h-[160px]" // Fixed size as requested to match previous look
+                className="w-full aspect-square"
               >
                 <ProjectCard
                   project={project}

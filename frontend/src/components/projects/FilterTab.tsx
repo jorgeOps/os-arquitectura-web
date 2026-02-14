@@ -19,16 +19,16 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
   // Definición de estilos por estado
   const stateStyles = isActive
     ? {
-      bg: "bg-lime-300",
-      border: "border-gray-900",
+      bg: "bg-stone-300",
+      border: "border-stone-500",
       text: "text-gray-900 font-bold",
       zIndex: "z-30",
-      shadowColor: "bg-gray-800",
+      shadowColor: "bg-stone-400",
     }
     : isHighlighted
       ? {
-        bg: "bg-yellow-200",
-        border: "border-gray-900",
+        bg: "bg-gray-200",
+        border: "border-gray-800",
         text: "text-gray-900 font-medium",
         zIndex: "z-20",
         shadowColor: "bg-gray-400",
@@ -45,7 +45,7 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
     <motion.button
       onClick={onClick}
       // ML-8: AÑADIDO MARGEN IZQUIERDO para que la "pata" inclinada no choque con el vecino
-      className={`relative group h-9 ml-8 shrink-0 ${stateStyles.zIndex} ${isActive ? "mb-px hover:drop-shadow-[0_1px_0_rgba(156,163,175,0.6)]" : "mb-0"}`}
+      className={`relative group h-9 ml-8 shrink-0 ${stateStyles.zIndex} ${isActive ? "hover:drop-shadow-[0_1px_0_rgba(156,163,175,0.6)]" : ""}`}
       whileHover={{ y: -1 }}
       transition={{ duration: 0.1 }}
     >
