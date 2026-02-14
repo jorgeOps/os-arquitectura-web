@@ -96,15 +96,15 @@ export function FilterMatrix() {
 
       {/* Contenedor con scroll horizontal global */}
       <div className="overflow-x-auto pb-2 custom-scrollbar">
-        {/* Filas de filtros con ancho mínimo */}
-        <div className="space-y-0 min-w-[1000px]">
+        {/* Filas de filtros con comportamiento elástico */}
+        <div className="space-y-0 min-w-full w-fit">
           {FILTER_ROWS.map((row) => (
             <div
               key={row.category}
-              className="relative pt-6"
+              className="relative pt-6 w-full"
             >
-              {/* Grid de 2 columnas: título | opciones - Adaptable */}
-              <div className="grid grid-cols-[160px_1fr] gap-8 items-end">
+              {/* Grid de 2 columnas: título | opciones */}
+              <div className="grid grid-cols-[160px_1fr] gap-8 items-end w-full">
                 {/* Título de la categoría - pegado a línea base */}
                 <div className="text-sm font-medium text-gray-500 pb-[2px]">
                   {row.title}
@@ -123,7 +123,7 @@ export function FilterMatrix() {
                 </div>
               </div>
 
-              {/* Línea base continua (suelo del archivador) */}
+              {/* Línea base continua (suelo del archivador) - abarca todo el ancho */}
               <div className="absolute left-0 right-0 bottom-0 border-b border-gray-400 z-0" />
             </div>
           ))}
