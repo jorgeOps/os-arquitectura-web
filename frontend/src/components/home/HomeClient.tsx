@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useInView, Variants } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, Variants, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown, Award, ArrowUpRight } from "lucide-react";
 import { SanityProject, SanityAward } from "@/lib/sanity/types";
 import { urlFor } from "@/lib/sanity/client";
@@ -35,6 +35,18 @@ const staggerChildren: Variants = {
 };
 
 export function HomeClient({ lang, projects, awards }: HomeClientProps) {
+    // Hero Carousel Logic
+    const heroProjects = projects.slice(0, 5);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        if (heroProjects.length <= 1) return;
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % heroProjects.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [heroProjects.length]); // Dependencies for effect
+
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -46,6 +58,12 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
     const heroY = useTransform(scrollY, [0, 1000], [0, 400]);
     const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
+    const philosophyRef = useRef<HTMLElement>(null);
+
+    const handleScrollToPhilosophy = () => {
+        philosophyRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
     return (
         <div ref={containerRef} className="bg-white text-gray-900 selection:bg-black selection:text-white">
             {/* Hero Section */}
@@ -55,18 +73,27 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
                     style={{ y: heroY }}
                     className="absolute inset-0 z-0"
                 >
-                    {projects[0]?.mainImage && (
-                        <div className="relative w-full h-[120%] -top-[10%]">
-                            <Image
-                                src={urlFor(projects[0].mainImage).width(1920).height(1080).url()}
-                                alt="Architecture Hero"
-                                fill
-                                className="object-cover brightness-[0.6]"
-                                priority
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
-                        </div>
-                    )}
+                    <AnimatePresence mode="popLayout">
+                        {heroProjects.length > 0 && heroProjects[currentIndex]?.mainImage && (
+                            <motion.div
+                                key={heroProjects[currentIndex]._id}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 1.5 }}
+                                className="absolute inset-0 w-full h-[120%] -top-[10%]"
+                            >
+                                <Image
+                                    src={urlFor(heroProjects[currentIndex].mainImage).width(1920).height(1080).url()}
+                                    alt={heroProjects[currentIndex].title?.[lang] || "Architecture Hero"}
+                                    fill
+                                    className="object-cover brightness-[0.6]"
+                                    priority={currentIndex === 0}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </motion.div>
 
                 {/* Hero Content */}
@@ -109,17 +136,18 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
                 </motion.div>
 
                 {/* Scroll Indicator */}
-                <motion.div
-                    className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 text-white/50"
+                <motion.button
+                    onClick={handleScrollToPhilosophy}
+                    className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 text-white/50 hover:text-white transition-colors cursor-pointer"
                     animate={{ y: [0, 10, 0] }}
                     transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                 >
                     <ChevronDown size={32} />
-                </motion.div>
+                </motion.button>
             </section>
 
             {/* Philosophy / Intro Section */}
-            <section className="py-24 md:py-32 px-6 bg-white">
+            <section ref={philosophyRef} className="py-24 md:py-32 px-6 bg-white">
                 <div className="max-w-4xl mx-auto text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}

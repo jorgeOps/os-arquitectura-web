@@ -58,3 +58,22 @@ export interface SanityAward {
     featured?: boolean;
     publishedAt?: string;
 }
+
+export interface SanityMediaCoverage {
+    _id: string;
+    title: any; // LocalizedString
+    slug: { current: string } | null;
+    startDate?: string;
+    endDate?: string;
+    coverImage: any;
+    description: any; // LocalizedBlockContent
+    coverageType: ('tv' | 'press' | 'radio' | 'online')[];
+    mediaOutlets?: string[];
+    gallery?: any[];
+    videos?: any[];
+    documents?: any[];
+    externalLinks?: { title: string; url: string }[];
+    tags?: string[];
+    featured?: boolean;
+    publishedAt?: string;
+}

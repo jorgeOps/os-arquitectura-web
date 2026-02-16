@@ -21,10 +21,6 @@ export default defineConfig({
               .title('Proyectos')
               .icon(() => '🏠')
               .child(S.documentTypeList('project').title('Proyectos')),
-            S.listItem()
-              .title('Blog')
-              .icon(() => '📝')
-              .child(S.documentTypeList('post').title('Posts')),
             S.divider(),
             S.listItem()
               .title('Publicaciones')
@@ -40,18 +36,9 @@ export default defineConfig({
               .child(S.documentTypeList('award').title('Premios')),
             S.divider(),
             S.listItem()
-              .title('Autores')
-              .icon(() => '👤')
-              .child(S.documentTypeList('author').title('Autores')),
-            S.divider(),
-            S.listItem()
               .title('Categorías de Proyectos')
               .icon(() => '🏷️')
               .child(S.documentTypeList('category').title('Categorías')),
-            S.listItem()
-              .title('Categorías de Blog')
-              .icon(() => '🏷️')
-              .child(S.documentTypeList('postCategory').title('Categorías de Blog')),
           ]),
     }),
     visionTool(),

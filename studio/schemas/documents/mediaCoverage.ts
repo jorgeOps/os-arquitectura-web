@@ -32,19 +32,18 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'eventName',
-      title: 'Nombre del Evento *',
-      type: 'string',
-      group: 'content',
-      description: 'Ej: "Torres Gemelas", "Windsor", "Edificio España"',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'eventDate',
-      title: 'Fecha del Evento *',
+      name: 'startDate',
+      title: 'Fecha de Inicio',
       type: 'date',
       group: 'content',
-      validation: (Rule) => Rule.required(),
+      description: 'Fecha de inicio del evento o cobertura (opcional)',
+    }),
+    defineField({
+      name: 'endDate',
+      title: 'Fecha de Fin',
+      type: 'date',
+      group: 'content',
+      description: 'Fecha de fin del evento o cobertura (opcional)',
     }),
     defineField({
       name: 'coverImage',
@@ -194,14 +193,6 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'relatedProjects',
-      title: 'Proyectos Relacionados',
-      type: 'array',
-      group: 'content',
-      of: [{ type: 'reference', to: [{ type: 'project' }] }],
-      description: 'Proyectos del estudio relacionados con este evento',
-    }),
-    defineField({
       name: 'tags',
       title: 'Etiquetas',
       type: 'array',
@@ -229,24 +220,46 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'eventName',
-      subtitle: 'title.es',
+      title: 'title.es',
+      subtitle: 'mediaOutlets',
       media: 'coverImage',
-      eventDate: 'eventDate',
+      startDate: 'startDate',
+      endDate: 'endDate',
     },
-    prepare({ title, subtitle, media, eventDate }) {
+    prepare({ title, subtitle, media, startDate, endDate }) {
+      // Formatear rango de fechas
+      let dateRange = '';
+      if (startDate && endDate) {
+        const start = new Date(startDate).getFullYear();
+        const end = new Date(endDate).getFullYear();
+        dateRange = start === end ? `${start}` : `${start} - ${end}`;
+      } else if (startDate) {
+        dateRange = new Date(startDate).getFullYear().toString();
+      } else if (endDate) {
+        dateRange = new Date(endDate).getFullYear().toString();
+      }
+
+      const mediosText = Array.isArray(subtitle) && subtitle.length > 0
+        ? subtitle.slice(0, 2).join(', ') + (subtitle.length > 2 ? '...' : '')
+        : '';
+
       return {
-        title: title || 'Sin nombre',
-        subtitle: `${subtitle || 'Sin título'} - ${eventDate || 'Sin fecha'}`,
+        title: title || 'Sin título',
+        subtitle: dateRange ? `${dateRange}${mediosText ? ' • ' + mediosText : ''}` : mediosText,
         media,
       }
     },
   },
   orderings: [
     {
-      title: 'Fecha del evento, más reciente',
-      name: 'eventDateDesc',
-      by: [{ field: 'eventDate', direction: 'desc' }],
+      title: 'Fecha de inicio, más reciente',
+      name: 'startDateDesc',
+      by: [{ field: 'startDate', direction: 'desc' }],
+    },
+    {
+      title: 'Título (A-Z)',
+      name: 'titleAsc',
+      by: [{ field: 'title.es', direction: 'asc' }],
     },
   ],
 })

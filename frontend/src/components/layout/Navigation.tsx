@@ -39,8 +39,8 @@ export function Navigation({ lang }: NavigationProps) {
       description: lang === "es" ? "Artículos y manuales" : "Articles and manuals"
     },
     {
-      href: `/${lang}/medios`,
-      label: lang === "es" ? "Medios" : "Media",
+      href: `/${lang}/media`,
+      label: lang === "es" ? "Media" : "Media",
       description: lang === "es" ? "Apariciones en medios" : "Media appearances"
     },
     {

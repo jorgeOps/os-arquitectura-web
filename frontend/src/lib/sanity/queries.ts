@@ -153,3 +153,62 @@ export const AWARD_BY_SLUG_QUERY = defineQuery(`*[_type == "award" && slug.curre
   featured,
   publishedAt
 }`);
+
+// Media Coverage queries
+export const MEDIA_COVERAGE_QUERY = defineQuery(`*[_type == "mediaCoverage"] | order(startDate desc) {
+  _id,
+  title,
+  slug,
+  startDate,
+  endDate,
+  coverImage,
+  description,
+  coverageType,
+  mediaOutlets,
+  gallery,
+  videos,
+  documents[] {
+    _key,
+    title,
+    asset-> {
+      _id,
+      url,
+      originalFilename,
+      size,
+      extension
+    }
+  },
+  externalLinks,
+  tags,
+  featured,
+  publishedAt
+}`);
+
+export const MEDIA_COVERAGE_BY_SLUG_QUERY = defineQuery(`*[_type == "mediaCoverage" && slug.current == $slug][0] {
+  _id,
+  title,
+  slug,
+  startDate,
+  endDate,
+  coverImage,
+  description,
+  coverageType,
+  mediaOutlets,
+  gallery,
+  videos,
+  documents[] {
+    _key,
+    title,
+    asset-> {
+      _id,
+      url,
+      originalFilename,
+      size,
+      extension
+    }
+  },
+  externalLinks,
+  tags,
+  featured,
+  publishedAt
+}`);
