@@ -135,6 +135,33 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
                     </motion.div>
                 </motion.div>
 
+                {/* Current Project Label */}
+                <div className="absolute bottom-12 right-6 md:right-12 z-20 pointer-events-none mix-blend-difference">
+                    <AnimatePresence mode="wait">
+                        {heroProjects.length > 0 && heroProjects[currentIndex]?.slug?.current && (
+                            <motion.div
+                                key={currentIndex}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <Link
+                                    href={`/${lang}/proyectos/${heroProjects[currentIndex].slug.current}`}
+                                    className="flex flex-col items-end text-right pointer-events-auto cursor-pointer group"
+                                >
+                                    <span className="text-[10px] md:text-xs text-white/60 uppercase tracking-[0.2em] mb-1 group-hover:text-white/90 transition-colors duration-300">
+                                        {lang === 'es' ? 'Proyecto' : 'Project'}
+                                    </span>
+                                    <span className="text-sm md:text-base text-white font-medium tracking-wide group-hover:underline underline-offset-4 decoration-white/50 transition-all duration-300">
+                                        {heroProjects[currentIndex]?.title?.[lang] || heroProjects[currentIndex]?.title?.es}
+                                    </span>
+                                </Link>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
                 {/* Scroll Indicator */}
                 <motion.button
                     onClick={handleScrollToPhilosophy}
