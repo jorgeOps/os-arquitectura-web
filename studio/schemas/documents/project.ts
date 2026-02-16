@@ -6,24 +6,18 @@ export default defineType({
   title: 'Proyecto',
   type: 'document',
   icon: HomeIcon,
-  groups: [
-    { name: 'content', title: 'Contenido', default: true },
-    { name: 'details', title: 'Detalles' },
-    { name: 'seo', title: 'SEO' },
-  ],
+
   fields: [
     defineField({
       name: 'title',
       title: 'Título *',
       type: 'localizedString',
-      group: 'content',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
       title: 'Slug *',
       type: 'slug',
-      group: 'content',
       options: {
         source: 'title.es',
         maxLength: 96,
@@ -34,7 +28,6 @@ export default defineType({
       name: 'mainImage',
       title: 'Imagen Principal *',
       type: 'image',
-      group: 'content',
       options: {
         hotspot: true,
       },
@@ -52,7 +45,6 @@ export default defineType({
       name: 'gallery',
       title: 'Galería de Imágenes *',
       type: 'array',
-      group: 'content',
       of: [
         {
           type: 'image',
@@ -77,21 +69,20 @@ export default defineType({
       name: 'excerpt',
       title: 'Descripción Corta *',
       type: 'localizedText',
-      group: 'content',
       description: 'Breve descripción que aparecerá en listados y previews',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
-      title: 'Descripción Completa',
+      title: 'Descripción Completa *',
       type: 'localizedBlockContent',
-      group: 'content',
+      validation: (Rule) => Rule.required(),
     }),
+    // FILTROS (Obligatorios y seguidos)
     defineField({
       name: 'buildingType',
-      title: 'Tipo de Edificio *',
+      title: '(Filtro) Tipo de Edificio *',
       type: 'string',
-      group: 'details',
       options: {
         list: [
           { title: 'Terciario oficinas', value: 'office' },
@@ -107,10 +98,70 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'workType',
+      title: '(Filtro) Tipo de Obra *',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Obra nueva', value: 'new' },
+          { title: 'Rehabilitación', value: 'renovation' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'serviceScope',
+      title: '(Filtro) Tipo de Trabajo *',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Misión completa', value: 'full' },
+          { title: 'Proyectos Previos', value: 'previous' },
+          { title: 'Project Management', value: 'pm' },
+          { title: 'Consultoría', value: 'consulting' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'status',
+      title: '(Filtro) Estado del Trabajo *',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'En estudio', value: 'study' },
+          { title: 'En curso', value: 'ongoing' },
+          { title: 'Finalizado', value: 'finished' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'locationFilter',
+      title: '(Filtro) Filtro de Localización *',
+      type: 'string',
+      description: 'Selecciona la agrupación para el filtro de localización',
+      options: {
+        list: [
+          { title: 'Madrid', value: 'madrid' },
+          { title: 'Barcelona', value: 'barcelona' },
+          { title: 'Otro', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    // Resto de campos
+    defineField({
       name: 'location',
-      title: 'Ubicación',
+      title: 'Ubicación Detallada',
       type: 'object',
-      group: 'details',
       fields: [
         {
           name: 'city',
@@ -128,7 +179,6 @@ export default defineType({
       name: 'year',
       title: 'Año de Finalización *',
       type: 'number',
-      group: 'details',
       validation: (Rule) =>
         Rule.required()
           .min(1900)
@@ -138,82 +188,17 @@ export default defineType({
       name: 'area',
       title: 'Área Construida (m²)',
       type: 'number',
-      group: 'details',
       validation: (Rule) => Rule.min(0),
     }),
     defineField({
       name: 'client',
       title: 'Cliente',
       type: 'string',
-      group: 'details',
-    }),
-    defineField({
-      name: 'workType',
-      title: 'Tipo de Obra',
-      type: 'string',
-      group: 'details',
-      options: {
-        list: [
-          { title: 'Obra nueva', value: 'new' },
-          { title: 'Rehabilitación', value: 'renovation' },
-          { title: 'Otro', value: 'other' },
-        ],
-        layout: 'dropdown',
-      },
-    }),
-    defineField({
-      name: 'serviceScope',
-      title: 'Tipo de Trabajo',
-      type: 'string',
-      group: 'details',
-      options: {
-        list: [
-          { title: 'Misión completa', value: 'full' },
-          { title: 'Proyectos Previos', value: 'previous' },
-          { title: 'Project Management', value: 'pm' },
-          { title: 'Consultoría', value: 'consulting' },
-          { title: 'Otro', value: 'other' },
-        ],
-        layout: 'dropdown',
-      },
-    }),
-    defineField({
-      name: 'status',
-      title: 'Estado del Trabajo *',
-      type: 'string',
-      group: 'details',
-      options: {
-        list: [
-          { title: 'En estudio', value: 'study' },
-          { title: 'En curso', value: 'ongoing' },
-          { title: 'Finalizado', value: 'finished' },
-          { title: 'Otro', value: 'other' },
-        ],
-        layout: 'dropdown',
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'locationFilter',
-      title: 'Filtro de Localización *',
-      type: 'string',
-      group: 'details',
-      description: 'Selecciona la agrupación para el filtro de localización',
-      options: {
-        list: [
-          { title: 'Madrid', value: 'madrid' },
-          { title: 'Barcelona', value: 'barcelona' },
-          { title: 'Otro', value: 'other' },
-        ],
-        layout: 'dropdown',
-      },
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'collaborators',
       title: 'Colaboradores',
       type: 'array',
-      group: 'details',
       description: 'Arquitectos, ingenieros, consultores, etc.',
       of: [
         {
@@ -243,14 +228,12 @@ export default defineType({
       name: 'budget',
       title: 'Presupuesto',
       type: 'string',
-      group: 'details',
       description: 'Opcional. Ej: "€500,000 - €1,000,000"',
     }),
     defineField({
       name: 'awards',
       title: 'Premios y Reconocimientos',
       type: 'array',
-      group: 'details',
       of: [
         {
           type: 'object',
@@ -284,7 +267,6 @@ export default defineType({
       name: 'tags',
       title: 'Etiquetas',
       type: 'array',
-      group: 'seo',
       of: [{ type: 'string' }],
       options: {
         layout: 'tags',
@@ -294,14 +276,12 @@ export default defineType({
       name: 'publishedAt',
       title: 'Fecha de Publicación',
       type: 'datetime',
-      group: 'seo',
       initialValue: () => new Date().toISOString(),
     }),
     defineField({
       name: 'featured',
       title: 'Destacado',
       type: 'boolean',
-      group: 'content',
       description: 'Mostrar en página principal',
       initialValue: false,
     }),

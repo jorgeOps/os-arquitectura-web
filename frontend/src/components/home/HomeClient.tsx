@@ -4,14 +4,16 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useInView, Variants, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronDown, Award, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ChevronDown, Award, ArrowUpRight, ArrowLeft } from "lucide-react";
 import { SanityProject, SanityAward } from "@/lib/sanity/types";
 import { urlFor } from "@/lib/sanity/client";
 import { Locale } from "@/lib/i18n/config";
 
 interface HomeClientProps {
     lang: Locale;
-    projects: SanityProject[];
+    featuredProjects: SanityProject[];
+    ongoingProjects: SanityProject[];
+    heroProjects: SanityProject[];
     awards: SanityAward[];
 }
 
@@ -34,9 +36,8 @@ const staggerChildren: Variants = {
     }
 };
 
-export function HomeClient({ lang, projects, awards }: HomeClientProps) {
-    // Hero Carousel Logic
-    const heroProjects = projects.slice(0, 5);
+export function HomeClient({ lang, featuredProjects, ongoingProjects, heroProjects, awards }: HomeClientProps) {
+    // Hero Carousel Logic - usar imágenes random
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
@@ -59,9 +60,30 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
     const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
     const philosophyRef = useRef<HTMLElement>(null);
+    const newsRef = useRef<HTMLElement>(null);
+    const featuredRef = useRef<HTMLElement>(null);
 
     const handleScrollToPhilosophy = () => {
         philosophyRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const handleScrollToNews = () => {
+        newsRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const handleScrollToFeatured = () => {
+        featuredRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const newsScrollRef = useRef<HTMLDivElement>(null);
+
+    const scrollNews = (direction: 'left' | 'right') => {
+        if (newsScrollRef.current) {
+            const container = newsScrollRef.current;
+            const itemWidth = container.offsetWidth / 2; // Scroll by one item (half container)
+            const scrollAmount = direction === 'left' ? -itemWidth : itemWidth;
+            container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        }
     };
 
     return (
@@ -162,15 +184,124 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
                     </AnimatePresence>
                 </div>
 
-                {/* Scroll Indicator */}
-                <motion.button
-                    onClick={handleScrollToPhilosophy}
-                    className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 text-white/50 hover:text-white transition-colors cursor-pointer"
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                {/* Minimalist Bottom Navigation (Option A) */}
+                <motion.nav
+                    className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex items-center gap-6 md:gap-8"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1, duration: 0.8 }}
                 >
-                    <ChevronDown size={32} />
-                </motion.button>
+                    <Link
+                        href={`/${lang}/proyectos`}
+                        className="text-sm md:text-base font-medium text-white/70 hover:text-white transition-colors relative group"
+                    >
+                        Portfolio
+                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
+                    </Link>
+
+                    <span className="w-1 h-1 rounded-full bg-white/30" />
+
+                    <button
+                        onClick={handleScrollToNews}
+                        className="text-sm md:text-base font-medium text-white/70 hover:text-white transition-colors relative group"
+                    >
+                        {lang === 'es' ? 'Novedades' : 'News'}
+                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
+                    </button>
+
+                    <span className="w-1 h-1 rounded-full bg-white/30" />
+
+                    <button
+                        onClick={handleScrollToFeatured}
+                        className="text-sm md:text-base font-medium text-white/70 hover:text-white transition-colors relative group"
+                    >
+                        {lang === 'es' ? 'Destacados' : 'Featured'}
+                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
+                    </button>
+                </motion.nav>
+            </section>
+
+            {/* Novedades / News Section (Horizontal Scroll) */}
+            <section ref={newsRef} className="py-24 px-6 bg-white border-b border-gray-100 overflow-hidden">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col md:flex-row gap-12 items-start">
+                        {/* Title Column */}
+                        <div className="md:w-1/4 shrink-0">
+                            <h2 className="text-sm font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">
+                                {lang === 'es' ? 'Actualidad' : 'Latest'}
+                            </h2>
+                            <h3 className="text-3xl font-light text-gray-900 leading-tight mb-6">
+                                {lang === 'es' ? 'Novedades y Publicaciones' : 'News & Publications'}
+                            </h3>
+
+                            {/* Navigation Arrows */}
+                            <div className="hidden md:flex gap-4 mt-8">
+                                <button
+                                    onClick={() => scrollNews('left')}
+                                    className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-black hover:border-black hover:text-white transition-all duration-300"
+                                >
+                                    <ArrowLeft size={20} />
+                                </button>
+                                <button
+                                    onClick={() => scrollNews('right')}
+                                    className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-black hover:border-black hover:text-white transition-all duration-300"
+                                >
+                                    <ArrowRight size={20} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Horizontal Scroll Container */}
+                        <div className="w-full md:w-3/4">
+                            {/* Scrollable Area */}
+                            <div
+                                ref={newsScrollRef}
+                                className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mr-6 pr-6 md:pr-0 scrollbar-hide scroll-smooth"
+                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                            >
+                                {(ongoingProjects || []).length > 0 ? (
+                                    (ongoingProjects || []).map((project) => (
+                                        <Link
+                                            key={project._id}
+                                            href={`/${lang}/proyectos/${project.slug?.current}`}
+                                            className="min-w-[85%] md:min-w-[calc(50%-12px)] w-[85%] md:w-[calc(50%-12px)] shrink-0 snap-start group cursor-pointer"
+                                        >
+                                            <div className="aspect-[4/3] bg-gray-100 mb-4 relative overflow-hidden">
+                                                {project.mainImage ? (
+                                                    <Image
+                                                        src={urlFor(project.mainImage).width(800).height(600).url()}
+                                                        alt={project.title?.[lang] || project.title?.es || 'Project'}
+                                                        fill
+                                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                                    />
+                                                ) : (
+                                                    <div className="absolute inset-0 bg-gray-200" />
+                                                )}
+
+                                                {/* Excerpt Overlay */}
+                                                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center p-6">
+                                                    <p className="text-white text-center text-sm md:text-base font-light leading-relaxed translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                                        {project.excerpt?.[lang] || project.excerpt?.es}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <span className="text-xs font-mono text-gray-400 block mb-2">
+                                                {project.year || new Date().getFullYear()}
+                                            </span>
+                                            <h4 className="text-lg font-medium text-gray-900 group-hover:text-gray-600 transition-colors leading-snug">
+                                                {project.title?.[lang] || project.title?.es}
+                                            </h4>
+                                        </Link>
+                                    ))
+                                ) : (
+                                    <div className="text-gray-500 text-center py-12 w-full">
+                                        {lang === 'es' ? 'No hay proyectos en curso' : 'No ongoing projects'}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* Philosophy / Intro Section */}
@@ -195,7 +326,7 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
             </section>
 
             {/* Featured Projects - Parallax List */}
-            <section className="py-24 md:py-32 px-6 bg-gray-50">
+            <section ref={featuredRef} className="py-24 md:py-32 px-6 bg-gray-50">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex justify-between items-end mb-20">
                         <div>
@@ -213,14 +344,20 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
                     </div>
 
                     <div className="space-y-20 md:space-y-32">
-                        {projects.map((project, index) => (
-                            <ProjectListItem
-                                key={project._id}
-                                project={project}
-                                lang={lang}
-                                index={index}
-                            />
-                        ))}
+                        {(featuredProjects || []).length > 0 ? (
+                            (featuredProjects || []).map((project, index) => (
+                                <ProjectListItem
+                                    key={project._id}
+                                    project={project}
+                                    lang={lang}
+                                    index={index}
+                                />
+                            ))
+                        ) : (
+                            <div className="text-gray-500 text-center py-12">
+                                {lang === 'es' ? 'No hay proyectos destacados' : 'No featured projects'}
+                            </div>
+                        )}
                     </div>
 
                     <div className="mt-20 text-center md:hidden">
@@ -235,7 +372,7 @@ export function HomeClient({ lang, projects, awards }: HomeClientProps) {
             </section>
 
             {/* Awards Section */}
-            {awards.length > 0 && (
+            {(awards || []).length > 0 && (
                 <section className="py-24 md:py-32 px-6 bg-black text-white">
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">

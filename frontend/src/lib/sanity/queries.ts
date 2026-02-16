@@ -46,7 +46,7 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(`*[_type == "project" && slug.c
 }`);
 
 // Featured projects for homepage
-export const FEATURED_PROJECTS_QUERY = defineQuery(`*[_type == "project"] | order(year desc) [0...3] {
+export const FEATURED_PROJECTS_QUERY = defineQuery(`*[_type == "project" && featured == true] | order(year desc) {
   _id,
   title,
   slug,
@@ -55,6 +55,39 @@ export const FEATURED_PROJECTS_QUERY = defineQuery(`*[_type == "project"] | orde
   buildingType,
   location,
   year
+}`);
+
+// Pool of projects for random Hero display
+export const HERO_POOL_QUERY = defineQuery(`*[_type == "project" && defined(mainImage)] {
+  _id,
+  title,
+  slug,
+  mainImage
+}`);
+
+// Fallback: All projects if no featured projects exist
+export const ALL_PROJECTS_FALLBACK_QUERY = defineQuery(`*[_type == "project"] | order(year desc) [0...5] {
+  _id,
+  title,
+  slug,
+  mainImage,
+  excerpt,
+  buildingType,
+  location,
+  year
+}`);
+
+// Ongoing projects for "Novedades y Publicaciones" section
+export const ONGOING_PROJECTS_QUERY = defineQuery(`*[_type == "project" && status == "ongoing"] | order(publishedAt desc) [0...4] {
+  _id,
+  title,
+  slug,
+  mainImage,
+  excerpt,
+  buildingType,
+  location,
+  year,
+  publishedAt
 }`);
 
 // Publications queries
