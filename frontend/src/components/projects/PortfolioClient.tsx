@@ -85,7 +85,7 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
       <div className="w-full">
         <motion.div
           layout
-          className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-4"
         >
           <AnimatePresence>
             {sortedProjects.map((project) => (
@@ -96,7 +96,7 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 shrink-0"
+                className="w-full aspect-square shrink-0"
               >
                 <ProjectCard
                   project={project}

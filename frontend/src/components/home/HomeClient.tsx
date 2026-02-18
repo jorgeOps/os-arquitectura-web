@@ -157,8 +157,8 @@ export function HomeClient({ lang, featuredProjects, ongoingProjects, heroProjec
                     </motion.div>
                 </motion.div>
 
-                {/* Current Project Label - Hidden on mobile to prevent overlap */}
-                <div className="hidden md:block absolute bottom-12 right-6 md:right-12 z-20 pointer-events-none mix-blend-difference">
+                {/* Current Project Label - Visible on all screens */}
+                <div className="absolute bottom-12 right-6 md:right-12 z-20 pointer-events-none mix-blend-difference">
                     <AnimatePresence mode="wait">
                         {heroProjects.length > 0 && heroProjects[currentIndex]?.slug?.current && (
                             <motion.div

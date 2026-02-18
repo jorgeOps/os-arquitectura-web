@@ -191,43 +191,43 @@ export function Navigation({ lang }: NavigationProps) {
                     ))}
 
                     {/* Mobile Dropdown Section */}
-                    <div className="pt-2">
-                      <button
-                        onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
-                        className="w-full flex items-center justify-between px-4 py-4 text-lg font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors"
-                      >
-                        <span>{lang === "es" ? "Noticias y Reconocimientos" : "News & Recognition"}</span>
-                        <ChevronDown
-                          size={20}
-                          className={`transition-transform duration-300 ease-in-out ${isMobileDropdownOpen ? "rotate-180" : ""
-                            }`}
-                        />
-                      </button>
 
-                      {/* Mobile Dropdown Items - Animated slide down */}
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${isMobileDropdownOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    <button
+                      onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
+                      className="w-full flex items-center justify-between px-4 py-4 text-lg font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors text-left"
+                    >
+                      <span>{lang === "es" ? "Noticias y Reconocimientos" : "News & Recognition"}</span>
+                      <ChevronDown
+                        size={20}
+                        className={`transition-transform duration-300 ease-in-out ${isMobileDropdownOpen ? "rotate-180" : ""
                           }`}
-                      >
-                        <div className="mt-1 space-y-1">
-                          {dropdownItems.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              onClick={closeMobileMenu}
-                              className="block px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors ml-4"
-                            >
-                              <div className="text-base font-medium text-gray-900">
-                                {item.label}
-                              </div>
-                              <div className="text-sm text-gray-500 mt-0.5">
-                                {item.description}
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
+                      />
+                    </button>
+
+                    {/* Mobile Dropdown Items - Animated slide down */}
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${isMobileDropdownOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                        }`}
+                    >
+                      <div className="mt-1 space-y-1">
+                        {dropdownItems.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={closeMobileMenu}
+                            className="block px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors ml-4"
+                          >
+                            <div className="text-base font-medium text-gray-900">
+                              {item.label}
+                            </div>
+                            <div className="text-sm text-gray-500 mt-0.5">
+                              {item.description}
+                            </div>
+                          </Link>
+                        ))}
                       </div>
                     </div>
+
 
                     <Link
                       href={`/${lang}/contacto`}
