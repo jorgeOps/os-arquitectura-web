@@ -19,7 +19,10 @@ export function Header({ lang }: HeaderProps) {
 
           <div className="flex items-center gap-6">
             <Navigation lang={lang} />
-            <LanguageSwitcher currentLang={lang} />
+            {/* Desktop Language Switcher - Hidden on mobile */}
+            <div className="hidden md:block">
+              <LanguageSwitcher currentLang={lang} />
+            </div>
           </div>
         </div>
       </Container>

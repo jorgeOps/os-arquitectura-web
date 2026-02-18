@@ -157,8 +157,8 @@ export function HomeClient({ lang, featuredProjects, ongoingProjects, heroProjec
                     </motion.div>
                 </motion.div>
 
-                {/* Current Project Label */}
-                <div className="absolute bottom-12 right-6 md:right-12 z-20 pointer-events-none mix-blend-difference">
+                {/* Current Project Label - Hidden on mobile to prevent overlap */}
+                <div className="hidden md:block absolute bottom-12 right-6 md:right-12 z-20 pointer-events-none mix-blend-difference">
                     <AnimatePresence mode="wait">
                         {heroProjects.length > 0 && heroProjects[currentIndex]?.slug?.current && (
                             <motion.div
@@ -184,9 +184,9 @@ export function HomeClient({ lang, featuredProjects, ongoingProjects, heroProjec
                     </AnimatePresence>
                 </div>
 
-                {/* Minimalist Bottom Navigation (Option A) */}
+                {/* Minimalist Bottom Navigation - Hidden on mobile to prevent overlap */}
                 <motion.nav
-                    className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex items-center gap-6 md:gap-8"
+                    className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 z-20 items-center gap-6 md:gap-8"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1, duration: 0.8 }}

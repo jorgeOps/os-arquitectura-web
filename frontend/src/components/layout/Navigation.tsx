@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Locale } from "@/lib/i18n/config";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface NavigationProps {
   lang: Locale;
@@ -162,8 +163,13 @@ export function Navigation({ lang }: NavigationProps) {
 
           {/* Mobile Menu Content - Start from top */}
           <nav className="flex-1 overflow-y-auto">
-            <div className="w-full px-6 py-6">
-              <div className="space-y-2">
+            <div className="w-full py-6">
+              <div className="space-y-2 px-6">
+                {/* Mobile Language Switcher */}
+                <div className="pb-4 mb-4 border-b border-gray-200">
+                  <LanguageSwitcher currentLang={lang} />
+                </div>
+
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
@@ -196,13 +202,13 @@ export function Navigation({ lang }: NavigationProps) {
                       isMobileDropdownOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="mt-1 space-y-1 pl-4">
+                    <div className="mt-1 space-y-1">
                       {dropdownItems.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
                           onClick={closeMobileMenu}
-                          className="block px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                          className="block px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors ml-4"
                         >
                           <div className="text-base font-medium text-gray-900">
                             {item.label}
