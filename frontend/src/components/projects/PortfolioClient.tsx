@@ -50,7 +50,7 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
   const matchedCount = sortedProjects.filter((p) => p.isMatched).length;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6 md:space-y-8">
       {/* Detalle del Proyecto (Overlay) */}
       <AnimatePresence>
         {selectedProject && (
@@ -62,7 +62,7 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
       </AnimatePresence>
 
       {/* Matriz de filtros - más compacta */}
-      <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <div className="bg-white rounded-lg shadow-sm p-2 sm:p-3 md:p-4 border border-gray-200">
         <FilterMatrix />
       </div>
 
@@ -85,7 +85,7 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
       <div className="w-full">
         <motion.div
           layout
-          className="flex flex-wrap justify-center gap-3 lg:gap-4"
+          className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4"
         >
           <AnimatePresence>
             {sortedProjects.map((project) => (
@@ -96,7 +96,7 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="w-40 h-40 shrink-0"
+                className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 shrink-0"
               >
                 <ProjectCard
                   project={project}

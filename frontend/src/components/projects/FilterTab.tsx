@@ -44,15 +44,15 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
   return (
     <motion.button
       onClick={onClick}
-      // ML-8: AÑADIDO MARGEN IZQUIERDO para que la "pata" inclinada no choque con el vecino
-      className={`relative group h-9 ml-8 shrink-0 ${stateStyles.zIndex} ${isActive ? "hover:drop-shadow-[0_1px_0_rgba(156,163,175,0.6)]" : ""}`}
+      // Margen izquierdo responsive para que la "pata" inclinada no choque con el vecino
+      className={`relative group h-8 sm:h-9 ml-4 sm:ml-6 md:ml-8 shrink-0 ${stateStyles.zIndex} ${isActive ? "hover:drop-shadow-[0_1px_0_rgba(156,163,175,0.6)]" : ""}`}
       whileHover={{ y: -1 }}
       transition={{ duration: 0.1 }}
     >
       {/* 1. SOMBRA LATERAL (Recta a la derecha) */}
       <div
         className={`
-          absolute -right-[5px] top-2 bottom-0 w-[5px]
+          absolute -right-[3px] sm:-right-[4px] md:-right-[5px] top-1.5 sm:top-2 bottom-0 w-[3px] sm:w-[4px] md:w-[5px]
           ${stateStyles.shadowColor}
           transition-colors duration-200
         `}
@@ -60,7 +60,7 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
 
       {/* 2. CUERPO PRINCIPAL (Rectángulo derecho) */}
       <div className={`
-        relative h-full px-2
+        relative h-full px-1.5 sm:px-2
         transform origin-bottom scale-y-90
         border-t border-r
         ${!isActive ? "border-b" : "border-b-0"}
@@ -78,7 +78,7 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
         {/* OÍDO IZQUIERDO */}
         <div
           className={`
-          absolute right-[100%] top-[-1px] bottom-[-1px] w-8
+          absolute right-[100%] top-[-1px] bottom-[-1px] w-5 sm:w-6 md:w-8
           origin-bottom-right -skew-x-[40deg]
           border-l border-t border-b border-b-gray-400
           ${stateStyles.bg} ${stateStyles.border}
@@ -91,8 +91,8 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
         <span
           className={`
           relative z-10
-          block text-xs capitalize tracking-wide
-          pt-4 pb-1 whitespace-nowrap
+          block text-[10px] sm:text-xs capitalize tracking-wide
+          pt-3 sm:pt-4 pb-1 whitespace-nowrap
           ${stateStyles.text}
           transform origin-bottom scale-y-110
         `}

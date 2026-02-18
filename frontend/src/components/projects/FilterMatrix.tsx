@@ -74,8 +74,8 @@ export function FilterMatrix() {
   return (
     <div className="space-y-0">
       {/* Header con contador de filtros activos */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-sm font-semibold text-gray-600">
+      <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-6">
+        <h2 className="text-xs sm:text-sm font-semibold text-gray-600">
           Clasificación de proyectos
         </h2>
         <AnimatePresence>
@@ -85,10 +85,11 @@ export function FilterMatrix() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               onClick={clearAllFilters}
-              className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-900 text-white rounded-full hover:bg-gray-700 transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm bg-gray-900 text-white rounded-full hover:bg-gray-700 transition-colors"
             >
-              <X size={14} />
-              Limpiar filtros ({activeFilters.size})
+              <X size={12} className="sm:w-3.5 sm:h-3.5" />
+              <span className="hidden sm:inline">Limpiar filtros ({activeFilters.size})</span>
+              <span className="sm:hidden">Limpiar ({activeFilters.size})</span>
             </motion.button>
           )}
         </AnimatePresence>
@@ -103,15 +104,15 @@ export function FilterMatrix() {
               key={row.category}
               className="relative pt-6 w-full"
             >
-              {/* Grid de 2 columnas: título | opciones */}
-              <div className="grid grid-cols-[160px_1fr] gap-8 items-end w-full">
+              {/* Grid de 2 columnas: título | opciones - Responsive */}
+              <div className="grid grid-cols-[80px_1fr] sm:grid-cols-[120px_1fr] md:grid-cols-[160px_1fr] gap-2 sm:gap-4 md:gap-8 items-end w-full">
                 {/* Título de la categoría - pegado a línea base */}
-                <div className="text-sm font-medium text-gray-500 pb-[2px]">
+                <div className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-500 pb-[2px] leading-tight">
                   {row.title}
                 </div>
 
                 {/* Solapas asentadas en la línea base - sin gap entre ellas */}
-                <div className="flex flex-nowrap gap-[4px] items-end relative z-10 pb-[1px]">
+                <div className="flex flex-nowrap gap-[2px] sm:gap-[4px] items-end relative z-10 pb-[1px]">
                   {row.options.map((option) => (
                     <FilterTab
                       key={option.id}
