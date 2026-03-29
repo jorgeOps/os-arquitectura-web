@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import useWeb3Forms from "@web3forms/react";
 
 // Animation Variants
 const containerVariants = {
@@ -37,25 +38,38 @@ export function ContactClient() {
 
     const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setSubmitStatus("loading");
-
-        // Simular envío (reemplazar con lógica real)
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-            console.log("Form submitted:", formState);
+    // Configurar Web3Forms
+    const { submit } = useWeb3Forms({
+        access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "",
+        settings: {
+            from_name: "Portfolio Olive-Sauret",
+            subject: "Nuevo mensaje desde el formulario de contacto",
+        },
+        onSuccess: () => {
             setSubmitStatus("success");
-
             // Reset form después de 3 segundos
             setTimeout(() => {
                 setFormState({ name: "", email: "", subject: "", message: "" });
                 setSubmitStatus("idle");
             }, 3000);
-        } catch (error) {
+        },
+        onError: () => {
             setSubmitStatus("error");
             setTimeout(() => setSubmitStatus("idle"), 3000);
-        }
+        },
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setSubmitStatus("loading");
+
+        // Enviar datos a Web3Forms
+        await submit({
+            name: formState.name,
+            email: formState.email,
+            subject: formState.subject,
+            message: formState.message,
+        });
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
