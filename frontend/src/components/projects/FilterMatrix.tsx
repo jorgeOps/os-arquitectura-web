@@ -102,17 +102,17 @@ export function FilterMatrix() {
           {FILTER_ROWS.map((row) => (
             <div
               key={row.category}
-              className="relative pt-6 w-full"
+              className="relative pt-6 w-full border-b border-gray-400"
             >
               {/* Grid de 2 columnas: título | opciones - Responsive */}
               <div className="grid grid-cols-[80px_1fr] sm:grid-cols-[120px_1fr] md:grid-cols-[160px_1fr] gap-2 sm:gap-4 md:gap-8 items-end w-full">
                 {/* Título de la categoría - pegado a línea base */}
-                <div className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-500 pb-[2px] leading-tight">
+                <div className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-500 pb-[1px] leading-tight">
                   {row.title}
                 </div>
 
-                {/* Solapas asentadas en la línea base - sin gap entre ellas */}
-                <div className="flex flex-nowrap gap-[2px] sm:gap-[4px] items-end relative z-10 pb-[1px]">
+                {/* Solapas asentadas en la línea base - fusionadas con la línea */}
+                <div className="flex flex-nowrap gap-2 sm:gap-3 items-end relative z-10">
                   {row.options.map((option) => (
                     <FilterTab
                       key={option.id}
@@ -123,9 +123,6 @@ export function FilterMatrix() {
                   ))}
                 </div>
               </div>
-
-              {/* Línea base continua (suelo del archivador) - abarca todo el ancho */}
-              <div className="absolute left-0 right-0 bottom-0 border-b border-gray-400 z-0" />
             </div>
           ))}
         </div>

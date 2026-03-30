@@ -6,6 +6,37 @@ import { Project } from "./ProjectCard";
 import { X, MapPin, Calendar, Ruler, Award, ChevronLeft, ChevronRight, Share2 } from "lucide-react";
 import Image from "next/image";
 
+// Mapa completo de traducciones para todos los filtros/tags y building types
+const TAG_TRANSLATIONS: Record<string, string> = {
+    // Building Types
+    'office': 'Terciario oficinas',
+    'commercial': 'Terciario comercial',
+    'institutional': 'Terciario dotacional',
+    'residential_collective': 'Residencial colectivo',
+    'residential_single': 'Residencial unifamiliar',
+    'industrial': 'Industrial',
+    'building_other': 'Otro',
+    // Work Types
+    'new_build': 'Obra nueva',
+    'renovation': 'Rehabilitación',
+    'work_other': 'Otro',
+    // Service Scope
+    'full_mission': 'Misión completa',
+    'previous_projects': 'Proyectos Previos',
+    'pm': 'Project Management',
+    'consulting': 'Consultoría',
+    'service_other': 'Otro',
+    // Status
+    'study': 'En estudio',
+    'ongoing': 'En curso',
+    'finished': 'Finalizado',
+    'status_other': 'Otro',
+    // Location
+    'madrid': 'Madrid',
+    'barcelona': 'Barcelona',
+    'location_other': 'Otro',
+};
+
 // Simple custom component for portable text
 const PortableTextRenderer = ({ value }: { value: any }) => {
     if (!value) return null;
@@ -187,48 +218,60 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                         </div>
                     </div>
 
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-8 sm:pb-12 md:pb-20">
                         {/* Title & Metadata Header */}
-                        <div className={`${hasMetadata ? 'border-b border-gray-100 pb-8 sm:pb-12 mb-8 sm:mb-12 md:mb-20' : 'mb-8'}`}>
-                            <motion.h1
+                        <div className={`${hasMetadata ? 'border-b border-gray-100 pb-6 mb-8' : 'mb-8'}`}>
+                            {/* Breadcrumb de filtros/tags */}
+                            {project.tags && project.tags.length > 0 && (
+                                <div className="mb-2 text-xs sm:text-sm text-gray-500 flex items-center gap-1 flex-wrap">
+                                    {project.tags.map((tag, index) => (
+                                        <React.Fragment key={tag}>
+                                            <span>{TAG_TRANSLATIONS[tag] || tag}</span>
+                                            {index < project.tags.length - 1 && <span className="text-gray-400">›</span>}
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            )}
+
+                            <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-6 sm:mb-8 tracking-tight leading-tight break-words"
+                                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4 tracking-tight leading-tight break-words"
                             >
                                 {project.title}
-                            </motion.h1>
+                            </motion.h2>
 
                             {hasMetadata && (
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                                     {project.location && (
-                                        <div className="space-y-1">
-                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Ubicación</span>
-                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900 break-words">
+                                        <div>
+                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Ubicación</span>
+                                            <div className="text-sm sm:text-base md:text-lg text-gray-900 break-words">
                                                 {project.location}
                                             </div>
                                         </div>
                                     )}
                                     {project.year && (
-                                        <div className="space-y-1">
-                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Año</span>
-                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900">
+                                        <div>
+                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Año</span>
+                                            <div className="text-sm sm:text-base md:text-lg text-gray-900">
                                                 {project.year}
                                             </div>
                                         </div>
                                     )}
                                     {project.area && (
-                                        <div className="space-y-1">
-                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Área</span>
-                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900">
+                                        <div>
+                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Área</span>
+                                            <div className="text-sm sm:text-base md:text-lg text-gray-900">
                                                 {project.area}
                                             </div>
                                         </div>
                                     )}
                                     {project.buildingType && (
-                                        <div className="space-y-1">
-                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Tipología</span>
-                                            <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-900 capitalize break-words">
-                                                {project.buildingType.replace(/_/g, ' ')}
+                                        <div>
+                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Tipología</span>
+                                            <div className="text-sm sm:text-base md:text-lg text-gray-900 break-words">
+                                                {TAG_TRANSLATIONS[project.buildingType] || project.buildingType.replace(/_/g, ' ')}
                                             </div>
                                         </div>
                                     )}
@@ -236,13 +279,15 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                             )}
                         </div>
 
-                        <div className={`grid grid-cols-1 ${hasDetails ? 'lg:grid-cols-[1fr_320px] gap-16 lg:gap-24' : ''}`}>
+                        <div className={`grid grid-cols-1 ${hasDetails ? 'lg:grid-cols-[1fr_320px] gap-12 lg:gap-16' : ''}`}>
                             {/* Left Column: Context & Gallery */}
-                            <div className="space-y-20">
+                            <div className="space-y-12">
                                 {/* Description */}
                                 {project.description && (
                                     <section>
-                                        <h3 className="text-sm font-bold text-gray-900 uppercase tracking-widest mb-8">Memoria</h3>
+                                        <div className="border-b border-gray-200 pb-2 mb-4">
+                                            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">Memoria</h4>
+                                        </div>
                                         <PortableTextRenderer value={project.description} />
                                     </section>
                                 )}
@@ -250,7 +295,9 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                                 {/* Gallery Grid */}
                                 {project.gallery && project.gallery.length > 0 && (
                                     <section>
-                                        <h3 className="text-sm font-bold text-gray-900 uppercase tracking-widest mb-8">Galería</h3>
+                                        <div className="border-b border-gray-200 pb-2 mb-4">
+                                            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">Galería</h4>
+                                        </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {project.gallery.map((img, idx) => (
                                                 <div
@@ -275,20 +322,22 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
 
                             {/* Right Column: Sidebar Details */}
                             {hasDetails && (
-                                <aside className="space-y-12">
-                                    <div className="p-8 bg-gray-50 rounded-2xl space-y-8 sticky top-8">
-                                        <h3 className="text-lg font-medium text-gray-900 border-b border-gray-200 pb-4">Detalles del Proyecto</h3>
+                                <aside className="space-y-8">
+                                    <div className="p-6 bg-gray-50 rounded-2xl space-y-6 sticky top-8">
+                                        <div className="border-b border-gray-200 pb-2">
+                                            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">Detalles del Proyecto</h4>
+                                        </div>
 
                                         {project.client && (
                                             <div>
-                                                <h4 className="text-xs font-bold text-gray-400 uppercase mb-2">Cliente</h4>
-                                                <p className="text-gray-900">{project.client}</p>
+                                                <h5 className="text-xs font-bold text-gray-400 uppercase mb-1">Cliente</h5>
+                                                <p className="text-gray-900 text-sm">{project.client}</p>
                                             </div>
                                         )}
 
                                         {project.collaborators && project.collaborators.length > 0 && (
                                             <div>
-                                                <h4 className="text-xs font-bold text-gray-400 uppercase mb-2">Colaboradores</h4>
+                                                <h5 className="text-xs font-bold text-gray-400 uppercase mb-1">Colaboradores</h5>
                                                 <ul className="space-y-2">
                                                     {project.collaborators.map((collab, idx) => (
                                                         <li key={idx} className="text-sm text-gray-600">
@@ -302,8 +351,8 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
 
                                         {project.awards && project.awards.length > 0 && (
                                             <div>
-                                                <h4 className="text-xs font-bold text-gray-400 uppercase mb-3">Premios</h4>
-                                                <ul className="space-y-4">
+                                                <h5 className="text-xs font-bold text-gray-400 uppercase mb-1">Premios</h5>
+                                                <ul className="space-y-3">
                                                     {project.awards.map((award, idx) => (
                                                         <li key={idx} className="flex gap-3 items-start text-sm">
                                                             <Award size={16} className="text-yellow-600 shrink-0 mt-0.5" />

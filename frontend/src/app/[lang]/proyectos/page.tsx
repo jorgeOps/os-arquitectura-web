@@ -25,10 +25,10 @@ export default async function ProjectsPage({
       <Container className="py-12">
         <div className="mb-12">
           <h1 className="text-5xl font-bold text-gray-900 mb-3">
-            Portfolio de Proyectos
+            Portfolio
           </h1>
           <p className="text-lg text-gray-600">
-            Explora nuestros proyectos de arquitectura. Pasa el ratón sobre las
+            Explora todos nuestros proyectos. Pasa el ratón sobre las
             imágenes para descubrir sus características.
           </p>
         </div>

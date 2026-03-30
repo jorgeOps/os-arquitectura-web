@@ -4,6 +4,8 @@ import { client } from "@/lib/sanity/client";
 import { FEATURED_PROJECTS_QUERY, ONGOING_PROJECTS_QUERY, FEATURED_AWARDS_QUERY, HERO_POOL_QUERY } from "@/lib/sanity/queries";
 import { SanityProject, SanityAward } from "@/lib/sanity/types";
 
+import { DevelopmentSeal } from "@/components/ui/DevelopmentSeal";
+
 export const dynamic = 'force-dynamic';
 
 export default async function Home({
@@ -28,6 +30,7 @@ export default async function Home({
 
   return (
     <main className="min-h-screen bg-white">
+      <DevelopmentSeal />
       <HomeClient
         lang={lang}
         featuredProjects={featuredProjects}

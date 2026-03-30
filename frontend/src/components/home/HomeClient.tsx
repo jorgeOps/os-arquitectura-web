@@ -17,6 +17,17 @@ interface HomeClientProps {
     awards: SanityAward[];
 }
 
+// Mapa de traducciones para buildingTypes
+const BUILDING_TYPE_TRANSLATIONS: Record<string, string> = {
+    'office': 'Terciario oficinas',
+    'commercial': 'Terciario comercial',
+    'institutional': 'Terciario dotacional',
+    'residential_collective': 'Residencial colectivo',
+    'residential_single': 'Residencial unifamiliar',
+    'industrial': 'Industrial',
+    'other': 'Otro'
+};
+
 const fadeIn: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -126,12 +137,19 @@ export function HomeClient({ lang, featuredProjects, ongoingProjects, heroProjec
                     animate="visible"
                     variants={staggerChildren}
                 >
-                    <motion.h1
+                    <motion.div
                         variants={fadeIn}
-                        className="text-6xl md:text-8xl lg:text-9xl font-light text-white tracking-tighter mb-8 leading-none"
+                        className="mb-8 flex justify-center"
                     >
-                        O.S. <span className="font-bold">Arquitectura</span>
-                    </motion.h1>
+                        <Image
+                            src="/images/sello_blanco.png"
+                            alt="O.S. Arquitectura"
+                            width={700}
+                            height={700}
+                            className="w-[300px] md:w-[400px] lg:w-[700px] h-auto"
+                            priority
+                        />
+                    </motion.div>
 
                     <motion.div variants={fadeIn} className="h-px w-32 bg-white/50 mx-auto mb-8" />
 
@@ -139,9 +157,7 @@ export function HomeClient({ lang, featuredProjects, ongoingProjects, heroProjec
                         variants={fadeIn}
                         className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto mb-12"
                     >
-                        {lang === 'es'
-                            ? 'Espacios que dialogan con el entorno y perduran en el tiempo.'
-                            : 'Spaces that dialogue with the environment and endure in time.'}
+                       
                     </motion.p>
 
                     <motion.div variants={fadeIn}>
@@ -487,8 +503,8 @@ function ProjectListItem({ project, lang, index }: { project: SanityProject; lan
 
                 <div className="flex flex-wrap gap-2 pt-4">
                     {project.buildingType && (
-                        <span className="text-sm border border-gray-200 px-3 py-1 rounded-full text-gray-500 capitalize">
-                            {project.buildingType.replace('_', ' ')}
+                        <span className="text-sm border border-gray-200 px-3 py-1 rounded-full text-gray-500">
+                            {BUILDING_TYPE_TRANSLATIONS[project.buildingType] || project.buildingType.replace('_', ' ')}
                         </span>
                     )}
                     {project.location?.city && (
