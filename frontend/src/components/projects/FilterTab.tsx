@@ -44,18 +44,16 @@ export function FilterTab({ id, label, onClick }: FilterTabProps) {
       className={`relative group h-8 sm:h-9 shrink-0 origin-bottom ${stateStyles.zIndex}`}
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
-      style={{ marginBottom: '-1px' }}
     >
       {/* Cuerpo principal del filtro */}
       <div
         className={`
           relative h-full px-2 sm:px-3
           border-x border-t ${stateStyles.border}
-          rounded-t-md
           ${stateStyles.bg}
           transition-all duration-200
           group-hover:brightness-95
-          shadow-[3px_-2px_6px_rgba(0,0,0,0.22)]
+          shadow-[7px_4px_0px_-4px_rgba(0,0,0,0.1)]
         `}
       >
         {/* Texto */}

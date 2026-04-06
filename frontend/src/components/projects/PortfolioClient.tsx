@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { FilterProvider, useFilters } from "@/contexts/FilterContext";
-import { FilterMatrix } from "./FilterMatrix";
+import { FilterMatrix, FILTER_ROWS } from "./FilterMatrix";
 import { ProjectCard, Project } from "./ProjectCard";
 import { ProjectDetail } from "./ProjectDetail";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,15 +27,31 @@ function PortfolioContent({ initialProjects }: { initialProjects: Project[] }) {
       }));
     }
 
+    // Agrupar filtros activos por categoría
+    const groupedActiveFilters: Record<string, string[]> = {};
+    Array.from(activeFilters).forEach(filterId => {
+      for (const row of FILTER_ROWS) {
+        if (row.options.some(opt => opt.id === filterId)) {
+          if (!groupedActiveFilters[row.category]) {
+            groupedActiveFilters[row.category] = [];
+          }
+          groupedActiveFilters[row.category].push(filterId);
+          break;
+        }
+      }
+    });
+
+    const activeCategories = Object.keys(groupedActiveFilters);
+
     const matched: (Project & { isMatched: boolean })[] = [];
     const notMatched: (Project & { isMatched: boolean })[] = [];
 
     initialProjects.forEach((project) => {
-      // Changed from .every() (AND) to .some() (OR) to allow inclusive filtering 
-      // (e.g. "Madrid" OR "Barcelona")
-      const matchesFilter = Array.from(activeFilters).some((filterId) =>
-        project.tags.includes(filterId)
-      );
+      // Intersección (AND) entre categorías, Unión (OR) dentro de una misma categoría.
+      const matchesFilter = activeCategories.every((category) => {
+        const requiredTagsForCategory = groupedActiveFilters[category];
+        return requiredTagsForCategory.some(tag => project.tags.includes(tag));
+      });
 
       if (matchesFilter) {
         matched.push({ ...project, isMatched: true });

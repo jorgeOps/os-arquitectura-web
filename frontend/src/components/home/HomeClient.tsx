@@ -8,6 +8,7 @@ import { ArrowRight, ChevronDown, Award, ArrowUpRight, ArrowLeft } from "lucide-
 import { SanityProject, SanityAward } from "@/lib/sanity/types";
 import { urlFor } from "@/lib/sanity/client";
 import { Locale } from "@/lib/i18n/config";
+import { DevelopmentSeal } from "@/components/ui/DevelopmentSeal";
 
 interface HomeClientProps {
     lang: Locale;
@@ -137,6 +138,10 @@ export function HomeClient({ lang, featuredProjects, ongoingProjects, heroProjec
                     animate="visible"
                     variants={staggerChildren}
                 >
+                    <motion.div variants={fadeIn} className="flex justify-center mb-4">
+                        <DevelopmentSeal />
+                    </motion.div>
+
                     <motion.div
                         variants={fadeIn}
                         className="mb-8 flex justify-center"

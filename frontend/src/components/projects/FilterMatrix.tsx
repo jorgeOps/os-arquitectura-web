@@ -13,7 +13,7 @@ interface FilterRow {
   options: { id: string; label: string }[];
 }
 
-const FILTER_ROWS: FilterRow[] = [
+export const FILTER_ROWS: FilterRow[] = [
   {
     category: "buildingType",
     title: "Tipo de edificio",
@@ -63,7 +63,7 @@ const FILTER_ROWS: FilterRow[] = [
     options: [
       { id: "madrid", label: "Madrid" },
       { id: "barcelona", label: "Barcelona" },
-      { id: "location_other", label: "Otro" },
+      { id: "location_other", label: "Otros" },
     ],
   },
 ];
