@@ -41,7 +41,7 @@ const TAG_TRANSLATIONS: Record<string, string> = {
 const PortableTextRenderer = ({ value }: { value: any }) => {
     if (!value) return null;
     return (
-        <div className="prose prose-gray max-w-none text-gray-600 leading-relaxed space-y-6">
+        <div className="prose prose-gray max-w-none text-gray-600 leading-relaxed space-y-4">
             {Array.isArray(value) && value.map((block: any) => {
                 if (block._type !== 'block' || !block.children) return null;
                 return (
@@ -220,7 +220,7 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
 
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-8 sm:pb-12 md:pb-20">
                         {/* Title & Metadata Header */}
-                        <div className={`${hasMetadata ? 'border-b border-gray-100 pb-6 mb-8' : 'mb-8'}`}>
+                        <div className="mb-8">
                             {/* Breadcrumb de filtros/tags */}
                             {project.tags && project.tags.length > 0 && (
                                 <div className="mb-2 text-xs sm:text-sm text-gray-500 flex items-center gap-1 flex-wrap">
@@ -279,15 +279,12 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                             )}
                         </div>
 
-                        <div className={`grid grid-cols-1 ${hasDetails ? 'lg:grid-cols-[1fr_320px] gap-12 lg:gap-16' : ''}`}>
+                        <div className={`grid grid-cols-1 ${hasDetails ? 'lg:grid-cols-[1fr_320px] gap-8 lg:gap-12' : ''}`}>
                             {/* Left Column: Context & Gallery */}
-                            <div className="space-y-12">
+                            <div className="space-y-8">
                                 {/* Description */}
                                 {project.description && (
                                     <section>
-                                        <div className="border-b border-gray-200 pb-2 mb-4">
-                                            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">Memoria</h4>
-                                        </div>
                                         <PortableTextRenderer value={project.description} />
                                     </section>
                                 )}
@@ -295,9 +292,6 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                                 {/* Gallery Grid */}
                                 {project.gallery && project.gallery.length > 0 && (
                                     <section>
-                                        <div className="border-b border-gray-200 pb-2 mb-4">
-                                            <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">Galería</h4>
-                                        </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {project.gallery.map((img, idx) => (
                                                 <div
@@ -372,7 +366,6 @@ export function ProjectContent({ project, onClose, className = "" }: ProjectCont
                     </div>
 
                     {/* Footer / Navigation Hint could go here */}
-                    <div className="h-20" />
                 </div>
             </div>
         </>

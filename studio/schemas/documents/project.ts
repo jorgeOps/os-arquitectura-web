@@ -160,7 +160,7 @@ export default defineType({
     // Resto de campos
     defineField({
       name: 'location',
-      title: 'Ubicación Detallada',
+      title: 'Ubicación Detallada (Opcional)',
       type: 'object',
       fields: [
         {
@@ -177,27 +177,26 @@ export default defineType({
     }),
     defineField({
       name: 'year',
-      title: 'Año de Finalización *',
+      title: 'Año de Finalización (Opcional)',
       type: 'number',
       validation: (Rule) =>
-        Rule.required()
-          .min(1900)
+        Rule.min(1900)
           .max(new Date().getFullYear() + 10),
     }),
     defineField({
       name: 'area',
-      title: 'Área Construida (m²)',
+      title: 'Área Construida (m²) (Opcional)',
       type: 'number',
       validation: (Rule) => Rule.min(0),
     }),
     defineField({
       name: 'client',
-      title: 'Cliente',
+      title: 'Cliente (Opcional)',
       type: 'string',
     }),
     defineField({
       name: 'collaborators',
-      title: 'Colaboradores',
+      title: 'Colaboradores (Opcional)',
       type: 'array',
       description: 'Arquitectos, ingenieros, consultores, etc.',
       of: [
@@ -226,13 +225,13 @@ export default defineType({
     }),
     defineField({
       name: 'budget',
-      title: 'Presupuesto',
+      title: 'Presupuesto (Opcional)',
       type: 'string',
       description: 'Opcional. Ej: "€500,000 - €1,000,000"',
     }),
     defineField({
       name: 'awards',
-      title: 'Premios y Reconocimientos',
+      title: 'Premios y Reconocimientos (Opcional)',
       type: 'array',
       of: [
         {
@@ -265,7 +264,7 @@ export default defineType({
     }),
     defineField({
       name: 'tags',
-      title: 'Etiquetas',
+      title: 'Etiquetas Especiales (Opcional)',
       type: 'array',
       of: [{ type: 'string' }],
       options: {
@@ -289,14 +288,14 @@ export default defineType({
   preview: {
     select: {
       title: 'title.es',
-      subtitle: 'category.name.es',
+      subtitle: 'buildingType',
       media: 'mainImage',
       year: 'year',
     },
     prepare({ title, subtitle, media, year }) {
       return {
         title: title || 'Sin título',
-        subtitle: `${subtitle || 'Sin categoría'} - ${year || 'Sin año'}`,
+        subtitle: `${subtitle ? subtitle.replace(/_/g, ' ') : 'Sin categoría'} - ${year || 'Sin año'}`,
         media,
       }
     },
